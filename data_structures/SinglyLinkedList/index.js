@@ -48,6 +48,180 @@
 
 
 
+     /**
+     * Removes the last node of this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @returns {any} The data from the node that was removed.
+     */
+      removeBack() {
+        if (this.isEmpty()) {
+          return null
+        }
+        else if (!this.head.next) {
+          let temp = this.head.data;
+          this.head = null;
+          return temp;
+        }
+        else {
+
+          let current = this.head;
+
+          while (current.next) {
+            let nextNode = current.next;
+            if (nextNode.next == null) {
+              current.next = null;
+              return nextNode.data;
+            }
+            else {
+              current = current.next;
+            }
+          }
+        }
+      }
+
+      /**
+       * Determines whether or not the given search value exists in this list.
+       * - Time: O(?).
+       * - Space: O(?).
+       * @param {any} val The data to search for in the nodes of this list.
+       * @returns {boolean}
+       */
+      contains(val) {
+
+        let current = this.head;
+
+        while(current) {
+          if (current.data == val) {
+            return true
+          }
+          current = current.next;
+        }
+        return false
+      }
+  
+      /**
+       * Determines whether or not the given search value exists in this list.
+       * - Time: O(?).
+       * - Space: O(?).
+       * @param {any} val The data to search for in the nodes of this list.
+       * @param {?ListNode} current The current node during the traversal of this list
+       *    or null when the end of the list has been reached.
+       * @returns {boolean}
+       */
+      containsRecursive(val, current = this.head) {
+        if (current.data == val) {
+          return true
+        }
+        if (!current.next) {
+          return false
+        }
+        return this.containsRecursive(val, current = current.next)
+      }
+  
+      // EXTRA
+      /**
+       * Recursively finds the maximum integer data of the nodes in this list.
+       * - Time: O(?).
+       * - Space: O(?).
+       * @param {ListNode} runner The start or current node during traversal, or null
+       *    when the end of the list is reached.
+       * @param {ListNode} maxNode Keeps track of the node that contains the current
+       *    max integer as it's data.
+       * @returns {?number} The max int or null if none.
+       */
+      recursiveMax(runner = this.head, maxNode = this.head) {
+        if (runner.data > maxNode.data) {
+          maxNode = runner;
+        }
+        if (!runner.next) {
+          return maxNode.data;
+        }
+        return this.recursiveMax(runner = runner.next, maxNode)
+      }
+
+
+
+
+
+
+
+
+
+    /**
+     * Creates a new node with the given data and inserts that node at the front
+     * of this list.
+     * - Time: (?).
+     * - Space: (?).
+     * @param {any} data The data for the new node.
+     * @returns {SinglyLinkedList} This list.
+     */
+     insertAtFront(data) {
+      if (this.isEmpty()) {
+        this.head = new ListNode(data)
+      }
+      else {
+        let newNode = new ListNode(data)
+        newNode.next = this.head;
+        this.head = newNode;
+      }
+      return this;
+     }
+
+
+
+     /**
+      * Removes the first node of this list.
+      * - Time: (?).
+      * - Space: (?).
+      * @returns {any} The data from the removed node.
+      */
+     removeHead() {
+      if (this.isEmpty()) {
+        return null
+      }
+      else {
+        let temp = this.head
+        this.head = temp.next;
+        return temp.data;
+      }
+     }
+ 
+     // EXTRA
+     /**
+      * Calculates the average of this list.
+      * - Time: (?).
+      * - Space: (?).
+      * @returns {number|NaN} The average of the node's data.
+      */
+     average() {
+
+      if(this.isEmpty()){
+        return NaN
+      }
+      else {
+        var current = this.head;
+        let sum = 0;
+        let length = 0;
+
+        while(current){
+            sum += current.data;
+            length++
+            current = current.next
+        }
+        let average = sum/length;
+        return average
+      }
+     }
+
+
+
+
+
+
+
+
+
 
     /**
      * Determines if this list is empty.
@@ -199,9 +373,22 @@
   */
   const emptyList = new SinglyLinkedList();
   
-  // const singleNodeList = new SinglyLinkedList().insertAtBackMany([1]);
-  // const biNodeList = new SinglyLinkedList().insertAtBackMany([1, 2]);
-  // const firstThreeList = new SinglyLinkedList().insertAtBackMany([1, 2, 3]);
+  let singleNodeList = new SinglyLinkedList().insertAtBackMany([1, 2]);
+  singleNodeList = new SinglyLinkedList().insertAtFront([3]);
+  
+
+  let firstThreeList = new SinglyLinkedList().insertAtBackMany([1, 2, 3]);
+  // firstThreeList.removeHead()
+  firstThreeList.insertAtFront(3);
+  console.log(firstThreeList.removeBack());
+  console.log(firstThreeList.average())
+
+  // console.log(firstThreeList.contains(2))
+  // console.log(firstThreeList.contains(8))
+  console.log(firstThreeList.containsRecursive(2))
+  console.log(firstThreeList.containsRecursive(8))
+  console.log(firstThreeList.recursiveMax())
+  // firstThreeList.removeHead();
   // const secondThreeList = new SinglyLinkedList().insertAtBackMany([4, 5, 6]);
   // const unorderedList = new SinglyLinkedList().insertAtBackMany([
   //   -5, -10, 4, -3, 6, 1, -7, -2,
@@ -220,4 +407,4 @@
   // ]);
   
   // Print your list like so:
-  // console.log(firstThreeList.toArr());
+  console.log(firstThreeList.toArr()); 
