@@ -48,6 +48,126 @@
 
 
 
+
+
+
+
+
+
+    /**
+     * Retrieves the data of the second to last node in this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @returns {any} The data of the second to last node or null if there is no
+     *    second to last node.
+     */
+     secondToLast() {
+      if (this.isEmpty()) {
+        return false
+      }
+
+      if (!this.head.next) {
+        return false
+      }
+
+      let runner = this.head;
+      while (runner) {
+        let nextNode = runner.next;
+        if (!nextNode.next) {
+          return runner.data;
+        }
+        runner = runner.next;
+      }
+     }
+
+     /**
+      * Removes the node that has the matching given val as it's data.
+      * - Time: O(?).
+      * - Space: O(?).
+      * @param {any} val The value to compare to the node's data to find the
+      *    node to be removed.
+      * @returns {boolean} Indicates if a node was removed or not.
+      */
+     removeVal(val) {
+      if (this.isEmpty()) {
+        return false
+      }
+
+      if (!this.head.next) {
+        if (this.head.data == val) {
+          this.head = null;
+          return true;
+        }
+        
+        return false       
+      }
+
+      let runner = this.head;
+
+      while(runner) {
+        let nextNode = runner.next;
+        if (nextNode.data == val) {
+          runner.next = nextNode.next;
+          return true
+        }
+        runner = runner.next;
+      }
+      return false
+     }
+ 
+     // EXTRA
+     /**
+      * Inserts a new node before a node that has the given value as its data.
+      * - Time: O(?).
+      * - Space: O(?).
+      * @param {any} newVal The value to use for the new node that is being added.
+      * @param {any} targetVal The value to use to find the node that the newVal
+      *    should be inserted in front of.
+      * @returns {boolean} To indicate whether the node was pre-pended or not.
+      */
+     prepend(newVal, targetVal) {
+
+      if (this.isEmpty()) {
+        return null
+      }
+
+      if (!this.head.next) {
+        if (this.head.data == targetVal) {
+          let newNode = new ListNode(newVal);
+          newNode.next = this.head;
+          this.head = newNode;
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+        
+
+      let runner = this.head;
+      while(runner.next) {
+        let nextNode = runner.next;
+        if (nextNode.data == targetVal) {
+          let newNode = new ListNode(newVal);
+          newNode.next = nextNode;
+          runner.next = newNode;
+          return true
+        }
+        else {
+          runner = runner.next;
+        }
+      }
+    return false;
+
+  }
+
+
+
+
+
+
+
+
      /**
      * Removes the last node of this list.
      * - Time: O(?).
@@ -373,21 +493,28 @@
   */
   const emptyList = new SinglyLinkedList();
   
-  let singleNodeList = new SinglyLinkedList().insertAtBackMany([1, 2]);
-  singleNodeList = new SinglyLinkedList().insertAtFront([3]);
+  let singleNodeList = new SinglyLinkedList().insertAtBackMany([1,2]);
+  singleNodeList.removeBack()
+  console.log(singleNodeList.toArr())
+
+  // singleNodeList = new SinglyLinkedList().insertAtFront([3]);
   
 
   let firstThreeList = new SinglyLinkedList().insertAtBackMany([1, 2, 3]);
+  console.log(firstThreeList.prepend(8,0));
   // firstThreeList.removeHead()
   firstThreeList.insertAtFront(3);
-  console.log(firstThreeList.removeBack());
-  console.log(firstThreeList.average())
+  // console.log(firstThreeList.removeVal(2));
+  // console.log(singleNodeList.removeVal(1));
+  console.log(singleNodeList.toArr());
+  // console.log(firstThreeList.removeBack());
+  // console.log(firstThreeList.average())
 
   // console.log(firstThreeList.contains(2))
   // console.log(firstThreeList.contains(8))
-  console.log(firstThreeList.containsRecursive(2))
-  console.log(firstThreeList.containsRecursive(8))
-  console.log(firstThreeList.recursiveMax())
+  // console.log(firstThreeList.containsRecursive(2))
+  // console.log(firstThreeList.containsRecursive(8))
+  // console.log(firstThreeList.recursiveMax())
   // firstThreeList.removeHead();
   // const secondThreeList = new SinglyLinkedList().insertAtBackMany([4, 5, 6]);
   // const unorderedList = new SinglyLinkedList().insertAtBackMany([
@@ -408,3 +535,5 @@
   
   // Print your list like so:
   console.log(firstThreeList.toArr()); 
+  console.log(firstThreeList.secondToLast())
+  console.log(singleNodeList.secondToLast())
